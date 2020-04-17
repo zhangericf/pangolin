@@ -1,21 +1,20 @@
 const express = require('express');
 var ObjectId = require('mongoose').Types.ObjectId;
 var router = express.Router();
-
 var { Pangolin } = require('../Model/Pangolin');
 
-// => localhost:3000/pangolins/
+// => localhost:3000/api/
 router.get('/', (req, res) => {
   Pangolin.find((err, docs) => {
-    if (!err)
+    if (!err) {
       res.send(docs);
-    else
+    } else
       console.log('Error retriving Pangolins : '
       + JSON.stringify(err, undefined, 2));
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('pangolin/:id', (req, res) => {
   if (!ObjectId.isValid(req.params.id))
     return res.status(400)
     .send(`No record with given id : ${req.params.id}`);
@@ -29,36 +28,82 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.post('/register', (req, res) => {
-  var pangolin = new Pangolin({
-    username: req.body.username,
-    password: req.body.password,
-    age: req.body.age,
-    famille: req.body.famille,
-    race: req.body.race,
-    nourriture: req.body.nourriture,
-  });
-  pangolin.save((err, doc) => {
-    if (!err)
-      res.send(doc);
-    else
-      console.log('Error retriving Pangolins : '
-      + JSON.stringify(err, undefined, 2));
-  });
+router.post('/register', async (req, res) => {
+	// confirm that user typed same password twice
+	if (req.body.password !== req.body.passwordConf) {
+		var err = new Error('Passwords do not match.');
+		err.status = 400;
+		res.send("passwords don't match");
+		return next(err);
+	}
+
+	const { username, password, age, famille, 
+		nourriture, race, passwordConf } = req.body;
+
+	if (username && password && age && famille 
+		&& nourriture && race && passwordConf) {
+
+		var pangolin = new Pangolin(req.body);
+		
+		Pangolin.nameExist(pangolin.username, (err, bool) => {
+			console.log(bool);
+			if (error) {
+				return next(error);
+			} else if (!bool) {
+				Pangolin.create(pangolin, function (error, user) {
+					if (error) {
+						return next(error);
+					} else {
+						return res.send(user);
+					}
+				});
+			}
+		});
+	}
 });
 
-router.post('/authenticate', (req, res) => {
-  var pangolin = Pangolin.findOne( { username: req.body.username }, (err, docs, pangolin) => {
-    if (!err) {
-      res.send(docs);
-    } else
-      console.log('Error username Pangolins : '
-      + JSON.stringify(err, undefined, 2));
-  });
-  if (pangolin.password == req.body.password)
-    return status(200);
-  else
-    return status(400);
+router.post('/auth', function (req, res, next) {
+	if (req.body.username && req.body.password) {
+		Pangolin.authenticate(req.body.username, req.body.password, function (error, user) {
+			if (error || !user) {
+				var err = new Error('Wrong email or password.');
+				err.status = 401;
+				return next(err);
+			} else {
+				req.session.userId = user._id;
+				return res.send(user);
+			}
+		});
+	} else {
+		var err = new Error('All fields required.');
+		err.status = 400;
+		return next(err);
+	}
+});
+
+// GET /logout
+router.get('/logout', function(req, res, next) {
+	if (req.session) {
+		// delete session object
+		req.session.destroy();
+	}
+});
+
+// Get user profile
+router.get('/my/profile', function (req, res, next) {
+	Pangolin.findById(req.session.userId).exec(function (error, user) {
+		if (error) {
+			return next(error);
+		} else {
+			if (user === null) {
+				var err = new Error('Not authorized! Go back!');
+				err.status = 400;
+				return next(err);
+			} else {
+				return res.send(user)
+			}
+		}
+	});
 });
 
 router.put('/:id', (req, res) => {
