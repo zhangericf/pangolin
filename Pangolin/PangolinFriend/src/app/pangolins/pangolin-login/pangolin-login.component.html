@@ -1,31 +1,32 @@
-<div *ngIf="!authenticationService.currentPangolinValue" class="m-auto">
-  <div class="login">
-    <div class="cell">
-      <div class="caption">
-        <div class="card-body cb-custom">
-          <h2 class="ta-center mb-3">Login</h2>
-          <form (ngSubmit)="onSubmit(loginF)" #loginF="ngForm">
-            <p *ngIf="errorMessage" class="alert-danger ta-center">{{errorMessage}}</p>
-            <div class="form-group">
-                <input placeholder="Username" type="text" name="username" class="form-control" #username="ngModel" ngModel required/>
+<!---Login--->
+<div *ngIf="!authenticationService.currentPangolinValue; else profile" class="m-auto">
+  <div class="cell">
+    <div class="caption">
+      <div class="card-body cb-custom">
+        <h2 class="ta-center mb-3">Login</h2>
+        <form (ngSubmit)="onSubmit(loginF)" #loginF="ngForm">
+          <p *ngIf="errorMessage" class="alert-danger ta-center">{{errorMessage}}</p>
+          <div class="form-group">
+              <input placeholder="Username" type="text" name="username" class="form-control" #username="ngModel" ngModel required/>
+          </div>
+          <div class="form-group">
+              <input placeholder="Password" type="password" name="password" class="form-control" #password="ngModel" ngModel required/>
+          </div>
+          <div class="form-group">
+              <button class="btn btn-primary" type="submit" [disabled]="!loginF.valid">Login</button>
+              <a [routerLink]="['/register']" class="btn btn-link">Register</a>
             </div>
-            <div class="form-group">
-                <input placeholder="Password" type="password" name="password" class="form-control" #password="ngModel" ngModel required/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit" [disabled]="!loginF.valid">Login</button>
-                <a [routerLink]="['/register']" class="btn btn-link">Register</a>
-              </div>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="authenticationService.currentPangolinValue">
-  <div  class="container">
+
+<!---Profile--->
+<ng-template #profile>
+  <div class="container">
     <div class="cell">
-      <div class="caption profile-cb-custom">
+      <div class="caption cb-custom profile-cb-custom" *ngIf="!modify; else modifyForm">
         <table class="card-body">
           <thead>
             <tr>
@@ -52,9 +53,51 @@
           </tbody>
         </table>
         <div class="justify-content-center d-flex">
-          <button class="btn logout" (click)="logout()">Logout</button>
+          <button class="btn m-auto modify" (click)="onEdit()">Modify</button>
+          <button class="btn logout m-auto" (click)="logout()">Logout</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
+
+<!--Modify-->
+<ng-template #modifyForm>
+  <div class="caption">
+    <div class="card-body cb-custom">
+      <h2 class="d-inline-block">Modify</h2>
+      <form (ngSubmit)="onUpdate(modifyF)" #modifyF="ngForm">
+        <div>
+          <input hidden type="text" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="pangolin._id" ngModel required/>
+        </div>
+        <div class="form-group">
+          <input hidden type="text" name="username" class="form-control" #username="ngModel" [(ngModel)]="pangolin.username"  ngModel required/>
+        </div>
+        <div class="text-left form-group">
+          <label>Age</label>
+          <input type="number" name="age" class="form-control"  #age="ngModel" [(ngModel)]="pangolin.age"  ngModel required/>
+        </div>
+        <div class="text-left form-group">
+          <label>Famille</label>
+          <input type="text" name="famille" class="form-control"  #famille="ngModel" [(ngModel)]="pangolin.famille"  ngModel required/>
+        </div>
+        <div class="text-left form-group">
+          <label>Race</label>
+          <input type="text" name="race" class="form-control"  #race="ngModel" [(ngModel)]="pangolin.race"  ngModel required/>
+        </div>
+        <div class="text-left form-group">
+          <label>Nourriture</label>
+          <input type="text" name="nourriture" class="form-control"  #nourriture="ngModel" [(ngModel)]="pangolin.nourriture"  ngModel required/>
+        </div>
+        <div class="form-group">
+          <input hidden type="password" name="password" class="form-control"  #password="ngModel" [(ngModel)]="pangolin.password"  ngModel required/>
+        </div>
+        <div class="form-group">
+          <button class="btn modify" [disabled]="!modifyF.valid">Update</button>
+          <button class="btn btn-link" (click)="stopModify()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

@@ -1,7 +1,8 @@
-<div class="cell">
-  <div class="caption">
-    <h2 class="d-inline-block">List</h2>
-    <table class="table">
+<div class="cell" [ngClass]="{'row': authenticationService.currentPangolinValue}">
+  <!--PangolinsList-->
+  <div class="caption cb-custom col-4">
+    <h2>Pangolins List</h2>
+    <table>
       <thead>
       <tr *ngIf="authenticationService.currentPangolinValue">
         <th>Name</th>
@@ -27,9 +28,39 @@
           <td>{{ pangolin.race }}</td>
           <td>{{ pangolin.nourriture }}</td>
           <td *ngIf="authenticationService.currentPangolinValue">
-            <a class="action-btn" (click)="onEdit(pangolin)">
+            <button class="myButton bg-green" (click)="onEdit(pangolin)">
             <i class="material-icons">add</i>
-            </a>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--FriendList-->
+  <div class="caption cb-custom col-4" hidden [ngClass]="{'show': authenticationService.currentPangolinValue}">
+    <h2>Friends</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Famille</th>
+        <th>Race</th>
+        <th>Nourriture</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let pangolin of pangolinsService.pangolin">
+        <tr *ngIf="!authenticationService.currentPangolinValue || pangolin._id != authenticationService.currentPangolinValue._id">
+          <td>{{ pangolin.username }}</td>
+          <td>{{ pangolin.age }}</td>
+          <td>{{ pangolin.famille }}</td>
+          <td>{{ pangolin.race }}</td>
+          <td>{{ pangolin.nourriture }}</td>
+          <td>
+            <button class="myButton bg-red" (click)="onEdit(pangolin)">
+              <i class="material-icons">clear</i>
+            </button>
           </td>
         </tr>
       </tbody>

@@ -25,7 +25,6 @@ export class PangolinsService {
   }
 
   update(pangolin: Pangolin) {
-    console.log(pangolin._id);
     return this.http.put(this.baseURL + `/` + `${pangolin._id}`, pangolin);
   }
 

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { PangolinsService } from '../pangolins.service';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
 import { first } from 'rxjs/operators';
-import { Pangolin } from '../pangolins.model';
 
 @Component({
   selector: 'app-pangolin-register',
@@ -26,7 +25,6 @@ export class PangolinRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.resetForm();
-    this.refreshList();
   }
 
   resetForm(form?: NgForm) {
@@ -44,16 +42,6 @@ export class PangolinRegisterComponent implements OnInit {
     };
   }
 
-  refreshList() {
-    this.pangolinsService.getAll().subscribe((res) => {
-      this.pangolinsService.pangolin = res as Pangolin[];
-    });
-  }
-
-  onEdit(pangolin: Pangolin) {
-    this.pangolinsService.selectedPangolin = pangolin;
-  }
-
   onSubmit(form: NgForm) {
     this.submitted = true;
 
@@ -65,31 +53,8 @@ export class PangolinRegisterComponent implements OnInit {
     this.loading = true;
     this.pangolinsService.register(form.value)
     .pipe(first())
-    .subscribe((res) => { this.resetForm(form); this.refreshList(); },
+    .subscribe((res) => { this.resetForm(form); },
     data => { this.router.navigate(['/login']); });
-  }
-
-  onUpdate(form: NgForm) {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (form.invalid) {
-        return;
-    }
-
-    this.loading = true;
-    this.pangolinsService.update(form.value).subscribe((res) => {
-      this.resetForm(form);
-      this.refreshList();
-    });
-  }
-
-  onDelete(id: string) {
-    if (confirm('Are you sure to delete this record ?') === true) {
-      this.pangolinsService.delete(id).subscribe((res) => {
-        this.refreshList();
-      });
-    }
   }
 }
 

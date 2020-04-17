@@ -12,8 +12,8 @@ import { Pangolin } from '../pangolins.model';
   styleUrls: ['./pangolin-login.component.css']
 })
 export class PangolinLoginComponent implements OnInit {
-  currentForm: NgForm;
   loading = false;
+  modify = false;
   submitted = false;
   pangolin: Pangolin;
   errorMessage = "";
@@ -48,6 +48,30 @@ export class PangolinLoginComponent implements OnInit {
           .pipe(first())
           .subscribe(data => { this.router.navigate(['/home']); },
           error => { this.loading = false; this.errorMessage = "Wrong email or password."});
+  }
+
+  onEdit() {
+    this.modify = true;
+  }
+
+  stopModify() {
+    this.modify = false;
+  }
+
+  onUpdate(form: NgForm) {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (form.invalid) {
+        return;
+    }
+
+    this.loading = true;
+    this.pangolinsService.update(form.value).subscribe((res) => {
+      localStorage.removeItem('currentPangolin');
+      localStorage.setItem('currentPangolin', JSON.stringify(form.value));
+      this.modify = false;
+    });
   }
 
   logout() {

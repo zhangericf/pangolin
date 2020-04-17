@@ -12,6 +12,15 @@ html, body {
   overflow: hidden;
 }
 
+body {
+  background: url("/assets/bg_pangolin.jpg") no-repeat center center;
+  min-height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .cell {
   width: 100%;
   height: 90vh;

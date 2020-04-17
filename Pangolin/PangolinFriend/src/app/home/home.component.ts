@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { PangolinsService } from '../pangolins/pangolins.service';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
-import { first } from 'rxjs/operators';
 import { Pangolin } from '../pangolins/pangolins.model';
 
 @Component({

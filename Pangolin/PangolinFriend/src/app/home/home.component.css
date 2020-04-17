@@ -1,0 +1,37 @@
+table {
+  margin: auto;
+}
+
+th {
+  padding: 10px;
+}
+
+.cb-custom {
+  width: auto;
+  margin: auto;
+}
+
+.show {
+  display: block!important;
+}
+
+.material-icons {
+  line-height: 1.5;
+  font-size: small;
+  font-weight: bold;
+}
+
+.myButton {
+  border-radius: 20px;
+}
+
+.bg-green {
+  background-color: rgb(24, 168, 24);
+  color: white;
+}
+
+
+.bg-red {
+  background-color: rgb(177, 24, 24);
+  color: white;
+}
