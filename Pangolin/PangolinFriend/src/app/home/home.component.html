@@ -1,0 +1,38 @@
+<div class="cell">
+  <div class="caption">
+    <h2 class="d-inline-block">List</h2>
+    <table class="table">
+      <thead>
+      <tr *ngIf="authenticationService.currentPangolinValue">
+        <th>Name</th>
+        <th>Age</th>
+        <th>Famille</th>
+        <th>Race</th>
+        <th>Nourriture</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="!authenticationService.currentPangolinValue">
+        <th>Name</th>
+        <th>Age</th>
+        <th>Famille</th>
+        <th>Race</th>
+        <th>Nourriture</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let pangolin of pangolinsService.pangolin">
+        <tr *ngIf="!authenticationService.currentPangolinValue || pangolin._id != authenticationService.currentPangolinValue._id">
+          <td>{{ pangolin.username }}</td>
+          <td>{{ pangolin.age }}</td>
+          <td>{{ pangolin.famille }}</td>
+          <td>{{ pangolin.race }}</td>
+          <td>{{ pangolin.nourriture }}</td>
+          <td *ngIf="authenticationService.currentPangolinValue">
+            <a class="action-btn" (click)="onEdit(pangolin)">
+            <i class="material-icons">add</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

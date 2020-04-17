@@ -1,0 +1,25 @@
+<header class="myheader">
+  <nav>
+    <div class="row w-100">
+      <a [routerLink]="['/']" routerLinkActive="router-link-active" >
+        <img [src]="'assets/logo.png'" class="navbar-brand logo ml-4">
+      </a>
+				<!-- Left Side Of Navbar -->
+
+      <ul class="navbar-nav mr-auto">
+
+      </ul>
+
+      <!-- Right Side Of Navbar -->
+      <div *ngIf="!authenticationService.currentPangolinValue" class="row navbar ml-auto justify-content-center">
+        <!-- Authentication Links -->
+          <a class="myNav nav-link" [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
+          <a class="myNav nav-link" [routerLink]="['/register']" routerLinkActive="router-link-active">Register</a>
+      </div>
+      <div *ngIf="authenticationService.currentPangolinValue" class="navbar-nav ml-auto justify-content-center">
+        <!-- Authentified Links -->
+          <a class="myNav nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active">Profile</a>
+      </div>
+    </div>
+	</nav>
+</header>

@@ -1,0 +1,36 @@
+table, td {
+  margin: auto;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+thead,
+tfoot {
+  font-size: 30px;
+  background-color: #333;
+  color: #fff;
+}
+
+.logout {
+  background-color: rgb(248, 93, 93);
+  color: white;
+}
+
+.logout:hover {
+  background-color: rgb(252, 50, 50);
+}
+
+.login {
+  background: url("/assets/bg_pangolin.jpg") no-repeat center center;
+  min-height: 90vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.profile-cb-custom {
+  width: auto;
+  overflow: hidden;
+  padding-bottom: 10px;
+}

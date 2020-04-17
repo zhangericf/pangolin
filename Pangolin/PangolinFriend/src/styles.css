@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ta-center {
+  text-align: center;
+}
+
+html, body {
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  background-color: grey;
+  overflow: hidden;
+}
+
+.cell {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.cell .caption {
+  text-align:center;
+}
+
+.cb-custom {
+  background-color: rgba(255, 255, 255, 0.863);
+  border-radius: 10px;
+  border-left: 10px solid brown;
+  border-right: 10px solid brown;
+  width: 400px;
+}
+
+@media screen and (max-width: 756px) {
+  .cb-custom {
+    width: 100%;
+  }
+  .form-control {
+    font-size: 13px;
+    padding: 3px 20px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .card-body {
+    padding: 1rem;
+  }
+  .cell {
+    padding-top: 5rem;
+  }
+}
+
+header, footer {
+  z-index: auto;
+}

@@ -1,0 +1,60 @@
+<div *ngIf="!authenticationService.currentPangolinValue" class="m-auto">
+  <div class="login">
+    <div class="cell">
+      <div class="caption">
+        <div class="card-body cb-custom">
+          <h2 class="ta-center mb-3">Login</h2>
+          <form (ngSubmit)="onSubmit(loginF)" #loginF="ngForm">
+            <p *ngIf="errorMessage" class="alert-danger ta-center">{{errorMessage}}</p>
+            <div class="form-group">
+                <input placeholder="Username" type="text" name="username" class="form-control" #username="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+                <input placeholder="Password" type="password" name="password" class="form-control" #password="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" [disabled]="!loginF.valid">Login</button>
+                <a [routerLink]="['/register']" class="btn btn-link">Register</a>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="authenticationService.currentPangolinValue">
+  <div  class="container">
+    <div class="cell">
+      <div class="caption profile-cb-custom">
+        <table class="card-body">
+          <thead>
+            <tr>
+              <th colspan="2" class="ta-center">{{ pangolin.username }}'s profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-right">Race</td>
+              <td class="text-left">{{ pangolin.race }}</td>
+            </tr>
+            <tr>
+              <td class="text-right">Famille</td>
+              <td class="text-left">{{ pangolin.famille }}</td>
+            </tr>
+            <tr>
+              <td class="text-right">Age</td>
+              <td class="text-left">{{ pangolin.age }}</td>
+            </tr>
+            <tr>
+              <td class="text-right">Nourriture</td>
+              <td class="text-left">{{ pangolin.nourriture }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="justify-content-center d-flex">
+          <button class="btn logout" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
