@@ -44,20 +44,22 @@ router.post('/register', async (req, res) => {
 		&& nourriture && race && passwordConf) {
 
 		var pangolin = new Pangolin(req.body);
-		
+		console.log("registering...");
 		Pangolin.nameExist(pangolin.username, (err, bool) => {
-			console.log(bool);
-			if (error) {
-				return next(error);
+			if (err) {
+				return next(err);
 			} else if (!bool) {
-				Pangolin.create(pangolin, function (error, user) {
-					if (error) {
-						return next(error);
+				Pangolin.create(pangolin, function (err, user) {
+					if (err) {
+						return next(err);
 					} else {
 						return res.send(user);
 					}
 				});
-			}
+			} else {
+        console.log("nameExist");
+        res.status(401).send('Username already used!');
+      }
 		});
 	}
 });
@@ -66,11 +68,8 @@ router.post('/auth', function (req, res, next) {
 	if (req.body.username && req.body.password) {
 		Pangolin.authenticate(req.body.username, req.body.password, function (error, user) {
 			if (error || !user) {
-				var err = new Error('Wrong email or password.');
-				err.status = 401;
-				return next(err);
+				return next(res.status(401).send('Wrong name or password'));
 			} else {
-				req.session.userId = user._id;
 				return res.send(user);
 			}
 		});
@@ -81,39 +80,12 @@ router.post('/auth', function (req, res, next) {
 	}
 });
 
-// GET /logout
-router.get('/logout', function(req, res, next) {
-	if (req.session) {
-		// delete session object
-		req.session.destroy();
-	}
-});
-
-// Get user profile
-router.get('/my/profile', function (req, res, next) {
-	Pangolin.findById(req.session.userId).exec(function (error, user) {
-		if (error) {
-			return next(error);
-		} else {
-			if (user === null) {
-				var err = new Error('Not authorized! Go back!');
-				err.status = 400;
-				return next(err);
-			} else {
-				return res.send(user)
-			}
-		}
-	});
-});
-
 router.put('/:id', (req, res) => {
   if (!ObjectId.isValid(req.params.id))
     return res.status(400)
     .send(`No record with given id : ${req.params.id}`);
 
   var pangolin = {
-    username: req.body.username,
-    password: req.body.password,
     age: req.body.age,
     famille: req.body.famille,
     race: req.body.race,
@@ -143,5 +115,55 @@ router.delete('/:id',(req, res) => {
       + JSON.stringify(err, undefined, 2));
   });
 });
+
+router.put('/addFriend/:id', (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400)
+    .send(`No record with given id : ${req.params.id}`);
+
+  const friends = [].concat(req.body.friends);
+  friends.push(req.params.id);
+
+  var pangolin = {
+    friends: friends,
+  }
+
+  Pangolin.findByIdAndUpdate(req.body._id,
+    { $set: pangolin }, { new: true }, (err, doc) => {
+    if (!err)
+      res.send(doc);
+    else
+      console.log('Error retriving Pangolins : '
+      + JSON.stringify(err, undefined, 2));
+  });
+});
+
+
+router.put('/removeFriend/:id', (req, res) => {
+  if (!ObjectId.isValid(req.params.id))
+    return res.status(400)
+    .send(`No record with given id : ${req.params.id}`);
+
+  const friends = [].concat(req.body.friends);
+
+  const index = friends.indexOf(req.params.id);
+  friends.splice(index, 1);
+
+  var pangolin = {
+    friends: friends,
+  }
+  
+  console.log(pangolin);
+
+  Pangolin.findByIdAndUpdate(req.body._id,
+    { $set: pangolin }, { new: true }, (err, doc) => {
+    if (!err)
+      res.send(doc);
+    else
+      console.log('Error retriving Pangolins : '
+      + JSON.stringify(err, undefined, 2));
+  });
+});
+
 
 module.exports = router;

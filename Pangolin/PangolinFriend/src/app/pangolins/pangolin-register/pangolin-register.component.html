@@ -2,6 +2,7 @@
   <div class="caption">
     <div class="card-body cb-custom">
       <h2 class="d-inline-block">Register</h2>
+      <p *ngIf="errorMessage" class="alert-danger ta-center">{{errorMessage}}</p>
       <form (ngSubmit)="onSubmit(registerF)" #registerF="ngForm">
         <div class="form-group">
           <input type="text" name="username" placeholder="Username" class="form-control" #username="ngModel" ngModel required/>

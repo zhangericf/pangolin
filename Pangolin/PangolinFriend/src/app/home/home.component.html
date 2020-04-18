@@ -1,69 +1,39 @@
-<div class="cell" [ngClass]="{'row': authenticationService.currentPangolinValue}">
-  <!--PangolinsList-->
-  <div class="caption cb-custom col-4">
-    <h2>Pangolins List</h2>
-    <table>
-      <thead>
-      <tr *ngIf="authenticationService.currentPangolinValue">
-        <th>Name</th>
-        <th>Age</th>
-        <th>Famille</th>
-        <th>Race</th>
-        <th>Nourriture</th>
-        <th></th>
-      </tr>
-      <tr *ngIf="!authenticationService.currentPangolinValue">
-        <th>Name</th>
-        <th>Age</th>
-        <th>Famille</th>
-        <th>Race</th>
-        <th>Nourriture</th>
-      </tr>
-      </thead>
-      <tbody *ngFor="let pangolin of pangolinsService.pangolin">
-        <tr *ngIf="!authenticationService.currentPangolinValue || pangolin._id != authenticationService.currentPangolinValue._id">
-          <td>{{ pangolin.username }}</td>
-          <td>{{ pangolin.age }}</td>
-          <td>{{ pangolin.famille }}</td>
-          <td>{{ pangolin.race }}</td>
-          <td>{{ pangolin.nourriture }}</td>
-          <td *ngIf="authenticationService.currentPangolinValue">
-            <button class="myButton bg-green" (click)="onEdit(pangolin)">
-            <i class="material-icons">add</i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <!--FriendList-->
-  <div class="caption cb-custom col-4" hidden [ngClass]="{'show': authenticationService.currentPangolinValue}">
-    <h2>Friends</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Famille</th>
-        <th>Race</th>
-        <th>Nourriture</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody *ngFor="let pangolin of pangolinsService.pangolin">
-        <tr *ngIf="!authenticationService.currentPangolinValue || pangolin._id != authenticationService.currentPangolinValue._id">
-          <td>{{ pangolin.username }}</td>
-          <td>{{ pangolin.age }}</td>
-          <td>{{ pangolin.famille }}</td>
-          <td>{{ pangolin.race }}</td>
-          <td>{{ pangolin.nourriture }}</td>
-          <td>
-            <button class="myButton bg-red" (click)="onEdit(pangolin)">
-              <i class="material-icons">clear</i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="contain">
+  <div class="cell">
+    <!--PangolinsList-->
+    <div class="caption cb-custom col-5">
+      <h3>Pangolins List</h3>
+      <p *ngIf="pangolinsService.pangolin.length == 0">There is no registered user</p>
+      <table>
+        <tbody *ngFor="let pangolin of pangolinsService.pangolin">
+          <tr>
+            <td>{{ pangolin.username }}</td>
+            <td *ngIf="authenticationService.currentPangolinValue ">
+              <button *ngIf="pangolin._id != authenticationService.currentPangolinValue._id" class="myButton" [disabled]="isFriend(pangolin._id)" [ngClass]="{'bg-green': !isFriend(pangolin._id), 'square-green': isFriend(pangolin._id)}">
+                <i class="material-icons" (click)="addFriend(pangolin)" *ngIf="!isFriend(pangolin._id)">add</i>
+                <i class="material-icons" *ngIf="isFriend(pangolin._id)">done</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--FriendList-->
+    <div *ngIf="authenticationService.currentPangolinValue" class="caption cb-custom col-5">
+      <h3>Friends</h3>
+      <p *ngIf="authenticationService.currentPangolinValue.friends.length <= 0">You have no friends</p>
+      <table>
+        <tbody *ngFor="let pangolin of pangolinsService.pangolin">
+          <tr *ngIf="isFriend(pangolin._id)">
+            <td><a class="btn btn-link">{{ pangolin.username }}</a></td>
+            <td>
+              <button class="myButton bg-red">
+                <i class="material-icons" (click)="removeFriend(pangolin)">clear</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -6,13 +6,40 @@ th {
   padding: 10px;
 }
 
+h3 {
+  word-wrap: break-word;
+  padding: 10px 0;
+}
+
+td {
+  padding: 5px 50px;
+}
+
 .cb-custom {
+  height: 400px;
   width: auto;
   margin: auto;
 }
 
 .show {
   display: block!important;
+}
+
+.caption {
+  overflow-y: auto;
+}
+
+.contain {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.row {
+  margin: 0;
+}
+
+.btn {
+  padding: 0;
 }
 
 .material-icons {
@@ -23,6 +50,12 @@ th {
 
 .myButton {
   border-radius: 20px;
+  background-color: transparent;
+  border: 0;
+}
+
+.bg-red:hover {
+  background-color: rgb(139, 19, 19);
 }
 
 .bg-green {
@@ -30,8 +63,21 @@ th {
   color: white;
 }
 
+.square-green {
+  border: 1px double rgb(24, 168, 24);
+  border-radius: 0;
+  padding: 0px 10px;
+}
 
 .bg-red {
   background-color: rgb(177, 24, 24);
   color: white;
+}
+
+.btn-link {
+  color: #007bff!important;
+}
+
+.btn-link:hover {
+  color: #00448d!important;
 }

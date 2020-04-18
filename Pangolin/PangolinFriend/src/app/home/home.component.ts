@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { PangolinsService } from '../pangolins/pangolins.service';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
 import { Pangolin } from '../pangolins/pangolins.model';
@@ -12,30 +11,16 @@ import { Pangolin } from '../pangolins/pangolins.model';
 export class HomeComponent implements OnInit {
   loading = false;
   submitted = false;
+  friends: Pangolin[] = [];
 
   constructor(
     public pangolinsService: PangolinsService,
     public authenticationService: AuthenticationService
-  ) {  }
-
-  ngOnInit() {
-    this.resetForm();
-    this.refreshList();
+  ) {
   }
 
-  resetForm(form?: NgForm) {
-    if (form) {
-      form.reset();
-    }
-    this.pangolinsService.selectedPangolin = {
-      _id: '',
-      username: '',
-      password: '',
-      age: null,
-      famille: '',
-      race: '',
-      nourriture: '',
-    };
+  ngOnInit() {
+    this.refreshList();
   }
 
   refreshList() {
@@ -44,31 +29,24 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onEdit(pangolin: Pangolin) {
-    this.pangolinsService.selectedPangolin = pangolin;
-  }
-
-  onUpdate(form: NgForm) {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (form.invalid) {
-        return;
-    }
-
-    this.loading = true;
-    this.pangolinsService.update(form.value).subscribe((res) => {
-      this.resetForm(form);
-      this.refreshList();
+  addFriend(pangolin: Pangolin) {
+    this.pangolinsService.addFriend(pangolin).subscribe((res) => {
+      localStorage.removeItem('currentPangolin');
+      localStorage.setItem('currentPangolin', JSON.stringify(res));
+      window.location.reload();
     });
   }
 
-  onDelete(id: string) {
-    if (confirm('Are you sure to delete this record ?') === true) {
-      this.pangolinsService.delete(id).subscribe((res) => {
-        this.refreshList();
-      });
-    }
+  removeFriend(pangolin: Pangolin) {
+    this.pangolinsService.removeFriend(pangolin).subscribe((res) => {
+      localStorage.removeItem('currentPangolin');
+      localStorage.setItem('currentPangolin', JSON.stringify(res));
+      window.location.reload();
+    });
+  }
+
+  isFriend(id: string) {
+    return this.authenticationService.currentPangolinValue.friends.includes(id);
   }
 }
 

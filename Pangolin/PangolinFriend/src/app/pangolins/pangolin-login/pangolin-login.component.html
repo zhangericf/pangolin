@@ -67,12 +67,6 @@
     <div class="card-body cb-custom">
       <h2 class="d-inline-block">Modify</h2>
       <form (ngSubmit)="onUpdate(modifyF)" #modifyF="ngForm">
-        <div>
-          <input hidden type="text" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="pangolin._id" ngModel required/>
-        </div>
-        <div class="form-group">
-          <input hidden type="text" name="username" class="form-control" #username="ngModel" [(ngModel)]="pangolin.username"  ngModel required/>
-        </div>
         <div class="text-left form-group">
           <label>Age</label>
           <input type="number" name="age" class="form-control"  #age="ngModel" [(ngModel)]="pangolin.age"  ngModel required/>
@@ -90,9 +84,6 @@
           <input type="text" name="nourriture" class="form-control"  #nourriture="ngModel" [(ngModel)]="pangolin.nourriture"  ngModel required/>
         </div>
         <div class="form-group">
-          <input hidden type="password" name="password" class="form-control"  #password="ngModel" [(ngModel)]="pangolin.password"  ngModel required/>
-        </div>
-        <div class="form-group">
           <button class="btn modify" [disabled]="!modifyF.valid">Update</button>
           <button class="btn btn-link" (click)="stopModify()">Cancel</button>
         </div>
@@ -100,4 +91,3 @@
     </div>
   </div>
 </ng-template>
-

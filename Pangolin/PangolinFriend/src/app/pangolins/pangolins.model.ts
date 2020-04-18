@@ -6,4 +6,5 @@ export interface Pangolin {
   famille: string;
   race: string;
   nourriture: string;
+  friends: [string];
 }

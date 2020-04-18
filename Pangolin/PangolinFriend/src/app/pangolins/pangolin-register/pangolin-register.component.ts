@@ -13,6 +13,7 @@ import { first } from 'rxjs/operators';
 export class PangolinRegisterComponent implements OnInit {
   loading = false;
   submitted = false;
+  errorMessage = '';
 
   constructor(private router: Router,
               public pangolinsService: PangolinsService,
@@ -39,6 +40,7 @@ export class PangolinRegisterComponent implements OnInit {
       famille: '',
       race: '',
       nourriture: '',
+      friends: null
     };
   }
 
@@ -51,10 +53,10 @@ export class PangolinRegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    this.pangolinsService.register(form.value)
-    .pipe(first())
-    .subscribe((res) => { this.resetForm(form); },
-    data => { this.router.navigate(['/login']); });
+    this.pangolinsService.register(form.value).pipe(first())
+    .subscribe(
+      res => { this.resetForm(form); this.router.navigate(['/login']); },
+      error => { this.loading = false; this.errorMessage = error.error; });
   }
 }
 

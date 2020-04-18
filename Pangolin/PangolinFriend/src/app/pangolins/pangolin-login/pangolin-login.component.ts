@@ -16,7 +16,7 @@ export class PangolinLoginComponent implements OnInit {
   modify = false;
   submitted = false;
   pangolin: Pangolin;
-  errorMessage = "";
+  errorMessage = '';
 
   constructor(
     private router: Router,
@@ -47,7 +47,7 @@ export class PangolinLoginComponent implements OnInit {
       this.authenticationService.login(form.value.username, form.value.password)
           .pipe(first())
           .subscribe(data => { this.router.navigate(['/home']); },
-          error => { this.loading = false; this.errorMessage = "Wrong email or password."});
+          error => { this.loading = false; this.errorMessage = error.error});
   }
 
   onEdit() {
@@ -69,13 +69,13 @@ export class PangolinLoginComponent implements OnInit {
     this.loading = true;
     this.pangolinsService.update(form.value).subscribe((res) => {
       localStorage.removeItem('currentPangolin');
-      localStorage.setItem('currentPangolin', JSON.stringify(form.value));
+      localStorage.setItem('currentPangolin', JSON.stringify(res));
       this.modify = false;
     });
   }
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 }

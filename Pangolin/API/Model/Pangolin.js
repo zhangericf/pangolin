@@ -8,6 +8,7 @@ var PangolinSchema = new mongoose.Schema({
 	famille: { type: String, require: true },
 	race: { type: String, require: true },
 	nourriture: { type: String, require: true },
+	friends: [{ type: String }],
 });
 
 PangolinSchema.pre('save', function (next) {
@@ -18,23 +19,34 @@ PangolinSchema.pre('save', function (next) {
 		}
 		pangolin.password = hash;
 		next();
-	})
+	});
 });
 
-PangolinSchema.statics.nameExist = function (username) {
+PangolinSchema.statics.nameExist = function (username, callback) {
 	Pangolin.findOne( { username: username } ).exec( (err, user) => {
 		if(err)
-			return err;
-		if (!user)
-			return true;
-		return false;
+			return callback(err);
+		if (user == null) {
+			return callback(null, false);
+		}
+		return callback(null, true);
 	});
-}
+};
+
+PangolinSchema.methods.addFriend = async function(pangolin_id) {
+    // Generate an auth token for the user
+	const user = this;
+	console.log(user);
+	console.log(pangolin_id);
+    user.friends = user.friends.concat({pangolin_id});
+	await user.save();
+	return user;
+};
 
 PangolinSchema.statics.authenticate = function (username, password, callback) {
 	Pangolin.findOne({ username: username }).exec(function (err, user) {
 		if (err) {
-		  return callback(err)
+		  return callback(err);
 		} else if (!user) {
 		  var err = new Error('User not found.');
 		  err.status = 401;
@@ -46,7 +58,7 @@ PangolinSchema.statics.authenticate = function (username, password, callback) {
 		  } else {
 			return callback();
 		  }
-		})
+		});
 	});
 };
 
