@@ -1,6 +1,6 @@
 # pangolin
 Test technique
 
-Dans ce test, j'ai réalisé le register et puis je n'ai pas réussi à faire la connexion, alors je n'ai pas pu faire grand chose de plus.
-
-Alors j'ai decider d'ajouter une liste de Pangolin pour montrer que je savais comment faire la modification.
+Projet utilisant la stack MEAN, afin de réaliser un CRUD centrer sur les Pangolins !
+Ce test consiste en un register, un login avec le profile du pangolin modifiable.
+Puis une fois cela fait le pangolin doit pouvoir se faire des amis.
