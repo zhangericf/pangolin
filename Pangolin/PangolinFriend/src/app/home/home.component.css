@@ -15,7 +15,7 @@ td {
   padding: 5px 50px;
 }
 
-.cb-custom {
+.cb-custom-home {
   height: 400px;
   width: auto;
   margin: auto;
@@ -38,10 +38,6 @@ td {
   margin: 0;
 }
 
-.btn {
-  padding: 0;
-}
-
 .material-icons {
   line-height: 1.5;
   font-size: small;
@@ -52,6 +48,12 @@ td {
   border-radius: 20px;
   background-color: transparent;
   border: 0;
+}
+
+.abso {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .bg-red:hover {

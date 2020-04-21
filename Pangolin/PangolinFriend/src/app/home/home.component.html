@@ -1,7 +1,7 @@
 <div class="contain">
   <div class="cell">
     <!--PangolinsList-->
-    <div class="caption cb-custom col-5">
+    <div class="caption cb-custom cb-custom-home col-5">
       <h3>Pangolins List</h3>
       <p *ngIf="pangolinsService.pangolin.length == 0">There is no registered user</p>
       <table>
@@ -19,13 +19,13 @@
       </table>
     </div>
     <!--FriendList-->
-    <div *ngIf="authenticationService.currentPangolinValue" class="caption cb-custom col-5">
+    <div *ngIf="authenticationService.currentPangolinValue" class="caption cb-custom cb-custom-home col-5">
       <h3>Friends</h3>
       <p *ngIf="authenticationService.currentPangolinValue.friends.length <= 0">You have no friends</p>
       <table>
         <tbody *ngFor="let pangolin of pangolinsService.pangolin">
           <tr *ngIf="isFriend(pangolin._id)">
-            <td><a class="btn btn-link">{{ pangolin.username }}</a></td>
+            <td><a class="btn p-0 btn-link">{{ pangolin.username }}</a></td>
             <td>
               <button class="myButton bg-red">
                 <i class="material-icons" (click)="removeFriend(pangolin)">clear</i>
@@ -34,6 +34,44 @@
           </tr>
         </tbody>
       </table>
+      <button class="myButton bg-green abso">
+        <i class="material-icons" (click)="showNewFriendForm()">add</i>
+      </button>
+    </div>
+    <div class="contain position-absolute" hidden [ngClass]="{'show': showForm}" >
+      <div class="cell">
+        <div class="card-body cb-custom">
+          <h2 class="d-inline-block">Register</h2>
+          <p *ngIf="errorMessage" class="alert-danger ta-center">{{errorMessage}}</p>
+          <form (ngSubmit)="addNewFriend(registerF)" #registerF="ngForm">
+            <div class="form-group">
+              <input type="text" name="username" placeholder="Username" class="form-control" #username="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="number" name="age" placeholder="Age" class="form-control"  #age="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="famille" placeholder="Famille" class="form-control"  #famille="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="race" placeholder="Race" class="form-control"  #race="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="nourriture" placeholder="Nourriture" class="form-control"  #nourriture="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" placeholder="Password" class="form-control"  #password="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <input type="password" name="passwordConf" placeholder="Confirm Password" class="form-control"  #passwordConf="ngModel" ngModel required/>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" [disabled]="!registerF.valid">Register</button>
+              <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

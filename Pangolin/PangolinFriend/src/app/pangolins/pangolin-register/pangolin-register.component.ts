@@ -19,9 +19,7 @@ export class PangolinRegisterComponent implements OnInit {
               public pangolinsService: PangolinsService,
               public authenticationService: AuthenticationService
   ) {
-    if (this.authenticationService.currentPangolinValue) {
-      this.router.navigate(['/profile']);
-    }
+
   }
 
   ngOnInit() {

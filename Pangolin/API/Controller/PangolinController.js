@@ -133,7 +133,7 @@ router.put('/addFriend/:id', (req, res) => {
     if (!err)
       res.send(doc);
     else
-      console.log('Error retriving Pangolins : '
+      console.log('Error adding friend Pangolins : '
       + JSON.stringify(err, undefined, 2));
   });
 });
@@ -152,15 +152,13 @@ router.put('/removeFriend/:id', (req, res) => {
   var pangolin = {
     friends: friends,
   }
-  
-  console.log(pangolin);
 
   Pangolin.findByIdAndUpdate(req.body._id,
     { $set: pangolin }, { new: true }, (err, doc) => {
     if (!err)
       res.send(doc);
     else
-      console.log('Error retriving Pangolins : '
+      console.log('Error removing friend Pangolins : '
       + JSON.stringify(err, undefined, 2));
   });
 });
