@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PangolinsService } from '../_services/pangolins.service';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
 import { Pangolin } from '../pangolins/pangolins.model';
@@ -18,7 +18,7 @@ function getSearchBar() {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   loading = false;
   submitted = false;
   friends: Pangolin[] = [];
