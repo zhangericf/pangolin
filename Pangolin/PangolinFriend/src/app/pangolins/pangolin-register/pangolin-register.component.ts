@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PangolinsService } from '../pangolins.service';
+import { PangolinsService } from '../../_services/pangolins.service';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
 import { first } from 'rxjs/operators';
 
@@ -15,9 +15,10 @@ export class PangolinRegisterComponent implements OnInit {
   submitted = false;
   errorMessage = '';
 
-  constructor(private router: Router,
-              public pangolinsService: PangolinsService,
-              public authenticationService: AuthenticationService
+  constructor(
+    private router: Router,
+    public pangolinsService: PangolinsService,
+    public authenticationService: AuthenticationService
   ) {
 
   }
@@ -30,16 +31,6 @@ export class PangolinRegisterComponent implements OnInit {
     if (form) {
       form.reset();
     }
-    this.pangolinsService.selectedPangolin = {
-      _id: '',
-      username: '',
-      password: '',
-      age: null,
-      famille: '',
-      race: '',
-      nourriture: '',
-      friends: null
-    };
   }
 
   onSubmit(form: NgForm) {

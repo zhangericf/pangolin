@@ -19,7 +19,7 @@
       <ng-template #profile>
         <div class="navbar-nav ml-auto justify-content-center">
           <!-- Authentified Links -->
-            <a class="myNav nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active">Profile</a>
+            <button class="myNav nav-link" (click)="navProfile()">Bonjour, {{authenticationService.currentPangolinValue.username}}</button>
         </div>
       </ng-template>
     </div>

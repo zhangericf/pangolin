@@ -11,6 +11,9 @@ import { PangolinLoginComponent } from './pangolins/pangolin-Login/pangolin-Logi
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { SocketService } from './_services/socket.service';
+import { ChatComponent } from './chat/chat.component';
+import { ProfileComponent } from './pangolins/profile/profile.component';
 
 @NgModule({
    declarations: [
@@ -19,7 +22,9 @@ import { FooterComponent } from './footer/footer.component';
       PangolinLoginComponent,
       HomeComponent,
       HeaderComponent,
-      FooterComponent
+      FooterComponent,
+      ChatComponent,
+      ProfileComponent
    ],
    imports: [
       BrowserModule,
@@ -27,7 +32,10 @@ import { FooterComponent } from './footer/footer.component';
       FormsModule,
       routing
    ],
-   providers: [],
+   providers: [
+      SocketService,
+      HomeComponent
+   ],
    bootstrap: [
       AppComponent
    ]

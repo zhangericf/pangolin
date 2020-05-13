@@ -1,0 +1,53 @@
+table, td {
+  margin: auto;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+thead,
+tfoot {
+  font-size: 30px;
+  background-color: #333;
+  color: #fff;
+}
+
+.logout {
+  background-color: rgb(248, 93, 93);
+  color: white;
+}
+
+.logout:hover {
+  background-color: rgb(252, 50, 50);
+}
+
+.modify {
+  background-color: rgb(248, 150, 93);
+  color: white;
+}
+
+.chat {
+  bottom: 200px;
+}
+
+.modify:hover {
+  background-color: rgb(248, 129, 60);
+}
+
+.message {
+  background-color: rgb(54, 115, 247);
+  color: white;
+}
+
+.message:hover {
+  background-color: rgb(20, 94, 255);
+}
+
+.show {
+  display: block!important;
+}
+
+.profile-cb-custom {
+  width: auto;
+  overflow: hidden;
+  padding-bottom: 10px;
+}

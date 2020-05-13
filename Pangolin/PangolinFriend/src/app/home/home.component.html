@@ -1,12 +1,16 @@
 <div class="contain">
-  <div class="cell">
+  <div class="cell mt-200">
+    <input class="searchbar p-2 pl-3" id="searchBar" placeholder="Search a user">
+  </div>
+  <div class="cell mt-5">
     <!--PangolinsList-->
     <div class="caption cb-custom cb-custom-home col-5">
-      <h3>Pangolins List</h3>
+    <h3>Pangolins List</h3>
       <p *ngIf="pangolinsService.pangolin.length == 0">There is no registered user</p>
       <table>
         <tbody *ngFor="let pangolin of pangolinsService.pangolin">
-          <tr>
+          <tr *ngIf="searchFriend(pangolin)">
+            <td *ngIf="authenticationService.currentPangolinValue"><div class="mycircle" [ngClass]="{'green': isConnected(pangolin.username)}"></div></td>
             <td>{{ pangolin.username }}</td>
             <td *ngIf="authenticationService.currentPangolinValue ">
               <button *ngIf="pangolin._id != authenticationService.currentPangolinValue._id" class="myButton" [disabled]="isFriend(pangolin._id)" [ngClass]="{'bg-green': !isFriend(pangolin._id), 'square-green': isFriend(pangolin._id)}">
@@ -24,8 +28,8 @@
       <p *ngIf="authenticationService.currentPangolinValue.friends.length <= 0">You have no friends</p>
       <table>
         <tbody *ngFor="let pangolin of pangolinsService.pangolin">
-          <tr *ngIf="isFriend(pangolin._id)">
-            <td><a class="btn p-0 btn-link">{{ pangolin.username }}</a></td>
+          <tr *ngIf="isFriend(pangolin._id) && searchFriend(pangolin)">
+            <td><button class="btn p-0 btn-link" (click)="friendProfile(pangolin)">{{ pangolin.username }}</button></td>
             <td>
               <button class="myButton bg-red">
                 <i class="material-icons" (click)="removeFriend(pangolin)">clear</i>
@@ -67,11 +71,18 @@
             </div>
             <div class="form-group">
               <button class="btn btn-primary" [disabled]="!registerF.valid">Register</button>
-              <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+              <a class="btn btn-link" (click)="showNewFriendForm()">Cancel</a>
             </div>
           </form>
         </div>
       </div>
+    </div>
+
+    <div class="contain position-absolute chat" *ngIf="authenticationService.currentPangolinValue">
+      <button (click)="showChatContainer()" style="background: none; border: none; color: white" [ngClass]="{'d-none': showChat}" >Chat
+        <i class="fas fa-comment-dots text-white" style="font-size: 30px;"></i>
+      </button>
+      <app-chat hidden class="" [ngClass]="{'show': showChat}" ></app-chat>
     </div>
   </div>
 </div>

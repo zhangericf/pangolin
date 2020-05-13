@@ -1,5 +1,5 @@
 <!---Login--->
-<div *ngIf="!authenticationService.currentPangolinValue; else profile" class="m-auto">
+<div *ngIf="!authenticationService.currentPangolinValue" class="m-auto">
   <div class="cell">
     <div class="caption">
       <div class="card-body cb-custom">
@@ -21,73 +21,3 @@
     </div>
   </div>
 </div>
-
-<!---Profile--->
-<ng-template #profile>
-  <div class="container">
-    <div class="cell">
-      <div class="caption cb-custom profile-cb-custom" *ngIf="!modify; else modifyForm">
-        <table class="card-body">
-          <thead>
-            <tr>
-              <th colspan="2" class="ta-center">{{ pangolin.username }}'s profile</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-right">Race</td>
-              <td class="text-left">{{ pangolin.race }}</td>
-            </tr>
-            <tr>
-              <td class="text-right">Famille</td>
-              <td class="text-left">{{ pangolin.famille }}</td>
-            </tr>
-            <tr>
-              <td class="text-right">Age</td>
-              <td class="text-left">{{ pangolin.age }}</td>
-            </tr>
-            <tr>
-              <td class="text-right">Nourriture</td>
-              <td class="text-left">{{ pangolin.nourriture }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="justify-content-center d-flex">
-          <button class="btn m-auto modify" (click)="onEdit()">Modify</button>
-          <button class="btn logout m-auto" (click)="logout()">Logout</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<!--Modify-->
-<ng-template #modifyForm>
-  <div class="caption">
-    <div class="card-body cb-custom">
-      <h2 class="d-inline-block">Modify</h2>
-      <form (ngSubmit)="onUpdate(modifyF)" #modifyF="ngForm">
-        <div class="text-left form-group">
-          <label>Age</label>
-          <input type="number" name="age" class="form-control"  #age="ngModel" [(ngModel)]="pangolin.age"  ngModel required/>
-        </div>
-        <div class="text-left form-group">
-          <label>Famille</label>
-          <input type="text" name="famille" class="form-control"  #famille="ngModel" [(ngModel)]="pangolin.famille"  ngModel required/>
-        </div>
-        <div class="text-left form-group">
-          <label>Race</label>
-          <input type="text" name="race" class="form-control"  #race="ngModel" [(ngModel)]="pangolin.race"  ngModel required/>
-        </div>
-        <div class="text-left form-group">
-          <label>Nourriture</label>
-          <input type="text" name="nourriture" class="form-control"  #nourriture="ngModel" [(ngModel)]="pangolin.nourriture"  ngModel required/>
-        </div>
-        <div class="form-group">
-          <button class="btn modify" [disabled]="!modifyF.valid">Update</button>
-          <button class="btn btn-link" (click)="stopModify()">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template>

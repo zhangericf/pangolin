@@ -33,6 +33,10 @@ body {
   text-align:center;
 }
 
+.mt-200 {
+  margin-top: 200px;
+}
+
 .cb-custom {
   background-color: rgba(255, 255, 255, 0.863);
   border-radius: 10px;

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/_services/authentification.service';
+import { Router } from '@angular/router';
+import { PangolinsService } from '../_services/pangolins.service';
 
 @Component({
   selector: 'app-header',
@@ -9,10 +11,18 @@ import { AuthenticationService } from 'src/app/_services/authentification.servic
 export class HeaderComponent implements OnInit {
   loggedIn = false;
 
-  constructor(public authenticationService: AuthenticationService) {
+  constructor(
+    private router: Router,
+    public authenticationService: AuthenticationService,
+    private pangolinService: PangolinsService) {
   }
 
   ngOnInit() {
+  }
+
+  navProfile() {
+    this.pangolinService.selectedPangolin = this.authenticationService.currentPangolinValue;
+    this.router.navigate(['/profile']);
   }
 
 }
